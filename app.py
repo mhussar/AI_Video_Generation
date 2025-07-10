@@ -30,7 +30,7 @@ if __name__ == "__main__":
     # Make sure you have the model pulled first
     # Run: ollama pull gemma3:4b
     
-    image_path = r"S:\Projects\Personal\AI_Video_Generation\cat.jpg"
+    image_path = r"cat.jpg"
     prompt = """
     From the input image, extract a detailed image generation prompt using natural language. Do not include formatting, lists, titles, or commentary. 
     Output only coherent text that describes the image, suitable for an image generation model.
