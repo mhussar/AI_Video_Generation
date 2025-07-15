@@ -2,6 +2,8 @@ import ollama
 from PIL import Image
 import base64
 import io
+import os
+import json
 
 # Function to encode image as base64
 def encode_image(image_path):
@@ -34,21 +36,11 @@ if __name__ == "__main__":
     # Make sure you have the model pulled first
     # Run: ollama pull gemma3:4b
     
-<<<<<<< Updated upstream
-    image_path = r"cat.jpg"
-=======
     image_dir = "images"
->>>>>>> Stashed changes
     prompt = """
     From the input image, extract a detailed image generation prompt using natural language. Do not include formatting, lists, titles, or commentary. 
     Output only coherent text that describes the image, suitable for an image generation model.
     """
-<<<<<<< Updated upstream
-    result = analyze_image_with_gemma(image_path, prompt)
-    print(result)
- 
- 
-=======
     
     # Initialize empty dictionary
     prompts = {}
@@ -81,4 +73,3 @@ if __name__ == "__main__":
         json.dump(prompts, f, indent=2, ensure_ascii=False)
     
     print(f"Processed {len(prompts)} images. Results saved to image_prompts.json")
->>>>>>> Stashed changes

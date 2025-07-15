@@ -11,16 +11,12 @@ UPLOAD_FOLDER = "images"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # serve the frontend - serve your existing mood.html
+ 
+
 @app.route("/", methods=["GET"])
 def root():
     return send_file("vanillajs/mood.html")
-
-
-def root():
-    return send_file("mood.html")
-
-
-
+ 
 
 @app.route("/extract", methods=["POST"])
 def extract_images():
@@ -55,4 +51,3 @@ def extract_images():
 
 if __name__ == "__main__":
     app.run(debug=True, port=5003)
-
