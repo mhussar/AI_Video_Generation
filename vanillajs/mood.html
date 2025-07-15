@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* CSS goes here */
+.ChooseFiles{
+    background-color: rgb(86, 213, 239);
+    width: 600px;
+    height: 100px;
+    position: relative;
+    left: 500px;
+}
+
+
+    </style>
+</head>
+<body>
+    <!-- HTML content goes here -->
+    <button class = "ChooseFiles">Choose Files</button>
+    <h1>Uploaded Images <span id ="count"></span></h1>
+    
+
+
+
+    <label for="imageInput">Click here to select a video</label>
+    <br><br>
+
+    <input type="file" id="imageInput" accept="image/*" multiple>
+
+    <div id = "preview" > </div> 
+
+    <button id="extractBtn">Extract</button>
+
+    <!-- </form> -->
+    <script>
+        // JavaScript goes here
+const input = document.getElementById("imageInput");
+const preview = document.getElementById("preview");
+
+
+let num =0;
+
+const imageWrapper = [];
+input.addEventListener("change",function(){
+
+    const files = this.files;
+    const imagecounter = 0;
+
+    if (files.length >0){
+        for (let i =0; i<files.length;i++){
+             const file = files[i];
+
+
+            const reader = new FileReader();
+            reader.onload = function(e){
+
+                const wrapper = document.createElement('div')
+                wrapper.style.position = 'relative';
+                wrapper.style.display = 'inline-block';
+
+                const img = document.createElement('img')
+                img.src = e.target.result;
+                img.style.width = "300px"; 
+                const select = document.createElement('select')
+                select.style.width = "200px"; 
+
+                const btn = document.createElement('button')
+                btn.innerText = "Click Me";
+                btn.style.position = 'absolute';
+                btn.style.left = '0px';
+                btn.style.top = '0px';
+
+                const moodboard_button = document.createElement('button')
+                moodboard_button.innerText = "moodboard";
+                moodboard_button.style.position = 'absolute';
+                moodboard_button.style.right = '0px';
+                moodboard_button.style.bottom = '0px';
+                
+
+                 img.addEventListener("click", function () {
+                     img.classList.toggle("selected");
+
+                      if (img.classList.contains( "selected")){
+                            img.style.opacity = "30%";
+                       }
+                       else{
+                        img.style.opacity = "100%";
+                       }
+                 console.log("Is selected?", img.classList.contains("selected"));
+                 });
+
+
+              
+
+                wrapper.appendChild(img);
+                wrapper.appendChild(btn);
+                wrapper.appendChild(moodboard_button);
+                preview.appendChild(wrapper);
+                imageWrapper.push(wrapper)
+                console.log(imageWrapper)
+
+
+                num++
+                document.getElementById("count").innerHTML= num;
+
+        }
+            reader.readAsDataURL(file);
+
+        }
+    }
+
+
+
+
+    // Extraction logic
+
+    document.getElementById("extractBtn").addEventListener("click", function(){
+        const selected = document.querySelectorAll('.selected img');
+
+        const payload = Array.from(selected).map((img,index)=>{
+            const base64 = img.src.split(',')[1]
+
+            return{
+                filename:`image_${index +1}.png`,
+                data:base64
+            };
+
+
+        });
+
+        fetch("http://localhost:5000/extract",{
+            method: "POST",
+            headers:{
+                "Content-Type": "application/json"
+            },
+
+            body:JSON.stringify(payload)
+
+        })
+
+        .then(res => res.json())
+        .then(data => console.log("Server:",data));
+    }) 
+
+    
+ 
+       
+    
+  
+})
+
+
+
+    </script>
+</body>
+</html>

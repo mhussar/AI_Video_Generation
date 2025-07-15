@@ -41,17 +41,17 @@ if __name__ == "__main__":
    #initialize empty dicttionary
    
     
-prompts = {}   
+    prompts = {}   
   #for loops through every image in the images folder and gives a prompt for each picture  
-for image in os.listdir(image_dir):
+    for image in os.listdir(image_dir):
         image_path = os.path.join(image_dir, image)
         result = analyze_image_with_gemma(image_path, prompt)
         print(result)
         prompts[image] = result
         
         #dump prompts into json 
-with open("image_prompt.json", 'w', encoding='utf-8') as f:
-    json.dump(prompts, f, indent=2, ensure_ascii=False)
+    with open("image_prompt.json", 'w', encoding='utf-8') as f:
+        json.dump(prompts, f, indent=2, ensure_ascii=False)
 
   
  
